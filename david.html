@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <div id="link">
+
+  </div>
+
+  <script type="text/javascript">
+    var dataSet = [{
+        company: 'MTN',
+        year: 2001,
+        type: 'money'
+      },
+      {
+        company: 'tmobile',
+        year: '2389',
+        type: 'tools'
+      },
+      {
+        company: 'Verizon',
+        year: 1945,
+        type: 'shirts'
+      },
+      {
+        company: 'Tigo',
+        year: 1987,
+        type: 'shoes'
+      }
+    ];
+
+    dataSet = dataSet.splice(0, 2);
+
+    function arrayToObject(args) {
+      var results, keys, columnDelimiter, lineDelimeter, data, control
+
+      data = args[0];
+
+      columnDelimiter = args.columnDelimiter || ',';
+      lineDelimeter = args.lineDelimeter || '\n';
+
+      key = Object.keys(data);
+      // console.log(key);
+
+      results = '';
+      results += key.join(columnDelimiter);
+      results += lineDelimeter;
+
+      args.forEach(function (company) {
+        control = 0;
+        key.forEach(function (rawData) {
+          if (control > 0) results += columnDelimiter
+
+          results += company[rawData];
+          control++
+        });
+        results += lineDelimeter;
+      });
+      console.log(results);
+      return results;
+    }
+
+
+    function createCSV(args) {
+      var csv = arrayToObject(dataSet);
+
+      var filename = 'data-set.csv';
+      if (!csv.match(/^data:text\/csv/i)) {
+        csv = 'data:text/csv;charset=utf-8,' + csv;
+      }
+
+      var data = encodeURI(csv);
+
+      var david = document.getElementById('link');
+      var link = document.createElement('a');
+      link.setAttribute('href', data);
+      link.setAttribute('download', filename);
+      link.innerText = "Download CSV"
+      david.appendChild(link);
+    }
+
+    createCSV(dataSet);
+  </script>
+</body>
+
+</html>
